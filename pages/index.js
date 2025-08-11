@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import { supabase } from '../lib/supabaseClient';
 import { useEffect, useState } from 'react';
 import { createSupabaseClient } from '../lib/supabaseClient';
 
@@ -7,8 +7,6 @@ export default function Home() {
   useEffect(() => setMessage('Deployed on Vercel ✅'), []);
 
   // Optional: prove Supabase client can be created without crashing
-  const supabase = createSupabaseClient();
-
   return (
     <main>
       <h1>Three Eye Analytics</h1>
