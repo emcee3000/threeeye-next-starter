@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { supabase } from '../lib/supabaseClient';
+import { supabase } from '../lib/supabaseClient.js';
 
 export default function Home() {
   const [message, setMessage] = useState('');
@@ -12,7 +12,7 @@ export default function Home() {
     // get current session
     supabase.auth.getSession().then(({ data }) => setSession(data.session ?? null));
 
-    // subscribe to auth changes
+    // listen for sign-in/out
     const { data: sub } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession);
     });
@@ -29,7 +29,10 @@ export default function Home() {
 
       <div className="box">
         <b>Env check:</b>
-        <div>Public Supabase URL present? <code>{process.env.NEXT_PUBLIC_SUPABASE_URL ? 'yes' : 'no'}</code></div>
+        <div>
+          Public Supabase URL present?{' '}
+          <code>{process.env.NEXT_PUBLIC_SUPABASE_URL ? 'yes' : 'no'}</code>
+        </div>
       </div>
     </main>
   );
@@ -38,7 +41,7 @@ export default function Home() {
 function Header({ session }) {
   if (!session) return null;
   return (
-    <div style={{display:'flex', gap:12, alignItems:'center', margin:'8px 0 16px'}}>
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '8px 0 16px' }}>
       <div>Signed in as <code>{session.user.email}</code></div>
       <button onClick={() => supabase.auth.signOut()}>Sign out</button>
     </div>
